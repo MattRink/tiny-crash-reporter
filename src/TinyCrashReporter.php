@@ -7,10 +7,22 @@ namespace MattRink\TinyCrashReporter;
  */
 class TinyCrashReporter
 {
-
+    /**
+     * The original exception handler, if any. Used to call the original handler after an exception.
+     * 
+     * @var callable
+     */
+    private $originalExceptionHandler;
 
     /**
-     * Create a new Tiny Crash Reporter and setup the handlers
+     * The original error handler, if any. Used to call the original handler after an error.
+     * 
+     * @var callable
+     */
+    private $originalErrorHandler;
+
+    /**
+     * Create a new Tiny Crash Reporter and setup the handlers.
      * 
      * @return void
      */    
@@ -18,45 +30,57 @@ class TinyCrashReporter
     {
 
         $this->setExceptionHandler();
-
         $this->setErrorHandler();
 
     }
 
     /**
-     * Sets the exception handler whish outputs the exception as a formatted string
+     * Sets the exception handler which outputs the exception as a formatted string.
      * 
      * @return void
      */
     protected function setExceptionHandler()
     {
 
-        set_exception_handler(function(\Throwable $e) {
+        $this->originalExceptionHandler = set_exception_handler(function(\Throwable $e) {
 
             $class = get_class($e);
             $message = $e->getMessage();
 
             echo "{$class}: {$message}";
 
+            // Pass the exception to any orignal exception handler or rethrow if no original handler
+            if ($this->originalExceptionHandler) {
+               ($this->originalExceptionHandler)($e);
+            } else {
+                throw $e;
+            }
+
         });
 
     }
 
     /**
-     * Sets the error handler whish outputs the error as a formatted string
+     * Sets the error handler which outputs the error as a formatted string.
      * 
      * @return void
      */
     protected function setErrorHandler()
     {
 
-        set_error_handler(function(int $errno , string $errstr, string $errfile, int $errline, array $errcontext) {
+        $this->originalErrorHandler = set_error_handler(function (int $errNo , string $errStr, string $errFile, int $errLine, array $errContext) {
 
-            $file = $errfile;
-            $line = $errline;
-            $message = $errstr;
+            $file = $errFile;
+            $line = $errLine;
+            $message = $errStr;
 
-            echo "{$errfile}:{$errline} {$message}";
+            echo "{$file}:{$line} {$message}";
+
+            if ($this->originalErrorHandler) {
+                ($this->originalErrorHandler)($errNo, $errStr, $errFile, $errLine, $errContext);
+            }
+
+            return false;
 
         });
 
