@@ -3,5 +3,10 @@
     "description": "A minimal crash reporting library for PHP",
     "require": {
         "php": "^5.3.3 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MattRink\\TinyCrashReporter\\": "src"
+        }
     }
 }
