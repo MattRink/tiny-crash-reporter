@@ -7,7 +7,7 @@ The `mattrink/tiny-crash-reporter` library gracefully handles PHP errors and exc
 You can install the package via composer:
 
 ``` bash
-composer require spatie/laravel-activitylog
+composer require mattrink/tiny-crash-reporter
 ```
 
 ## Usage
