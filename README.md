@@ -1,6 +1,6 @@
 # A minimal crash reporting library for PHP
 
-The `mattrink/tiny-crash-reporter` library gracefully handles PHP errors and exception returning pretty single line error messages.
+The `mattrink/tiny-crash-reporter` library gracefully handles PHP errors and exception returning single line error messages before continuing execution. TinyCrashReporter will continue after handling the error or execution as if it was never there, meaning that the exception or error will still continue to bubble up.
 
 ## Installation
 
@@ -21,3 +21,5 @@ use MattRink\TinyCrashReporter\TinyCrashReporter;
 
 $reporter = new TinyCrashReporter();
 ```
+
+From this point all exceptions and errors will be handled by TinyCrashHandler before calling any original handler if defined. All errors will be passed through and exceptions will be rethrown if no handler exists.
