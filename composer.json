@@ -1,6 +1,7 @@
 {
     "name": "mattrink/tiny-crash-reporter",
     "description": "A minimal crash reporting library for PHP",
+    "homepage": "https://github.com/MattRink/tiny-crash-reporter",
     "require": {
         "php": "^7.0"
     },
