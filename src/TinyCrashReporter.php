@@ -56,7 +56,7 @@ class TinyCrashReporter
             $line = $errline;
             $message = $errstr;
 
-            echo "{$errfile}:{$errline} ${$message}";
+            echo "{$errfile}:{$errline} {$message}";
 
         });
 
